@@ -1,0 +1,78 @@
+name: flutter_clean_todo
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # Service locator
+  get_it: ^7.7.0
+
+  # Getx for state management
+  get: ^4.6.6
+
+  # Value equality
+  equatable: ^2.0.5
+
+  # Functional programming
+  fpdart: ^1.1.0
+
+  # Remote API
+  dio: ^5.6.0
+  logger: ^2.4.0
+  connectivity_plus: ^6.0.5
+
+  # Local cache
+  shared_preferences: ^2.3.2
+
+  # Navigation
+  go_router: ^14.2.7
+
+  intl: ^0.19.0
+
+  #  flutter_easyloading: ^3.0.5
+  flutter_svg: ^2.0.10+1
+  persistent_bottom_nav_bar_v2: ^5.3.0
+  #  webview_flutter: ^4.8.0
+  pinput: ^5.0.0
+  #  timer_count_down: ^2.2.2
+  lottie: ^3.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+
+flutter:
+
+  uses-material-design: true
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 600
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Light.ttf
+          weight: 100
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 600
+
+  assets:
+    - assets/images/
