@@ -1,116 +1,51 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
+import 'package:flutter_clean_todo/core/common/widgets/custom_snackbar.dart';
+import 'package:flutter_clean_todo/core/constants/constant.dart';
+import 'package:flutter_clean_todo/features/home/data/models/weather_model.dart';
+import 'package:flutter_clean_todo/features/home/domain/usecases/weather_data_get.dart';
 import 'package:get/get.dart';
 
-//
-// class IsolateMessage {
-//   final SendPort sendPort;
-//   final RootIsolateToken token;
-//   final List<UserFeedPost> posts;
-//   // Function(String)? onError;
-//   // final String userContentId;
-//   // final String type; // 'error' or 'refreshed'
-//   // final String? errorMessage;
-//
-//   IsolateMessage({
-//     required this.sendPort,
-//     required this.posts,
-//     required this.token,
-//     // required this.onError,
-//   });
-// }
-//
-// class UserFeedCheckBoxItem {
-//   final String name;
-//   bool? isSelected;
-//
-//   UserFeedCheckBoxItem({required this.name, this.isSelected = false});
-//   @override
-//   String toString() {
-//     return name;
-//   }
-// }
-
 class HomeController extends GetxController {
-  // final _apiServices = Get.find<ApiServices>();
+  final WeatherDataGetUseCase weatherDataGetUseCase;
 
-  // Future<UserFeedModel?> fetchUserFeed({required int pageNumber, required bool isNewCall}) async {
-  //   isFeedLoading.value = true;
-  //   userFeedData.value = UserFeedModel();
-  //
-  //   if (isNewCall) {
-  //     feedPostList.value = [];
-  //   }
-  //   List<UserFeedCheckBoxItem> _selectedList = getSelectedItems();
-  //   _categoryFilterList.value = [];
-  //   _selectedList.forEach((UserFeedCheckBoxItem item) {
-  //     _categoryFilterList.add(item.name);
-  //   });
-  //
-  //   String filterCategoriesString = _categoryFilterList.join(',');
-  //
-  //   try {
-  //     final response = await _apiServices.get(
-  //       endPoint: ApiEndpoints.getUserFeed,
-  //       queryParameters: {
-  //         "Pagination.PageNumber": pageNumber,
-  //         "Pagination.PageSize": pageItemSize.value,
-  //         "CategoryFilter": filterCategoriesString,
-  //       },
-  //     );
-  //     if (response != null) {
-  //       if (response.statusCode == 200) {
-  //         var data = response.data;
-  //         userFeedData.value = UserFeedModel.fromMap(data);
-  //         currentPageIndex.value = _userFeedData.value.pageNumber!;
-  //         totalPageIndex.value = _userFeedData.value.totalPages!;
-  //
-  //         feedPostList.addAll(_userFeedData.value.data!.posts!);
-  //
-  //         // // // Cache content of the first post immediately
-  //         // // try {
-  //         // //   await cacheManagerService.getHomeFeedCacheManager().getSingleFile(_userFeedData.value.data!.posts![0].contentUri!,
-  //         // //       key: postCacheKey(id: _userFeedData.value.data!.posts![0].userContentId!));
-  //         // // } catch (e) {
-  //         // //   log(e.toString(), name: "post");
-  //         // // }
-  //         // await cacheManagerService.getHomeFeedCacheManager().emptyCache();
-  //         // // Extract content of remaining posts for background caching
-  //         // List<Post> remainingPosts = List<Post>.from(_userFeedData.value.data!.posts!);
-  //         //
-  //         // // Start background caching
-  //
-  //         // cacheContentInBackground(posts: remainingPosts);
-  //
-  //         isFeedLoading.value = false;
-  //         return _userFeedData.value;
-  //       } else {
-  //         isFeedLoading.value = false;
-  //         return null;
-  //       }
-  //     } else {
-  //       isFeedLoading.value = false;
-  //       return null;
-  //     }
-  //   } on DioException catch (dioErr) {
-  //     isFeedLoading.value = false;
-  //     if (dioErr.response != null) {
-  //       final data = dioErr.response!.data;
-  //
-  //       CustomSnackBar.errorSnackBar(
-  //         message: data['message'] ?? "somethingWentWrong".tr,
-  //       );
-  //     } else {
-  //       CustomSnackBar.errorSnackBar(
-  //         message: "somethingWentWrong".tr,
-  //       );
-  //     }
-  //     log(dioErr.toString());
-  //     return null;
-  //   } catch (err) {
-  //     isFeedLoading.value = false;
-  //     log(err.toString());
-  //     return null;
-  //   }
-  // }
-  //
+  HomeController({required this.weatherDataGetUseCase});
 
+  final Rx<WeatherModel> _weatherGetData = WeatherModel().obs;
+
+  Rx<WeatherModel> get weatherGetData => _weatherGetData;
+
+
+  Future<void> weatherGetDataApi({
+    required String cityName,
+  }) async {
+    // loading(show: true, title: "Authenticating...");
+    try {
+      var queryData = {
+        "q": cityName,
+        "appid": Constant.appIdDev,
+      };
+      var response = await weatherDataGetUseCase.call(
+          params: WeatherDataParams(cityName: cityName,queryParameters: queryData),
+      );
+      response.fold((baseFailure) {
+        log(baseFailure.toString());
+      }, (WeatherModel weatherModel) {
+        log(weatherModel.toString(), name: "userEntity");
+      });
+    } on DioException catch (ex) {
+      if (ex.response != null) {
+        final data = ex.response!.data;
+
+        CustomSnackBar.errorSnackBar(message: data['message'] ?? "somethingWentWrong".tr);
+      } else {
+        CustomSnackBar.errorSnackBar(message: "somethingWentWrong".tr);
+      }
+    } catch (e) {
+      CustomSnackBar.errorSnackBar(message: "somethingWentWrong".tr);
+      log(e.toString());
+    } finally {
+      // loading(show: false);
+    }
+  }
 }

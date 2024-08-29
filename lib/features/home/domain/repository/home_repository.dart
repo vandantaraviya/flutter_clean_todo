@@ -5,5 +5,6 @@ import 'package:fpdart/fpdart.dart';
 abstract interface class HomeRepository {
   Future<Either<BaseFailure, WeatherModel>> weatherDataGet({
     required String cityName,
+    required Map<String, dynamic> queryParameters,
   });
 }

@@ -6,7 +6,7 @@ import 'package:flutter_clean_todo/features/home/data/models/weather_model.dart'
 
 abstract interface class HomeRemoteDataSource {
   Future<WeatherModel> weatherDataGet({
-    required String cityName,
+    required String cityName,  required Map<String, dynamic> queryParameters
   });
 }
 
@@ -18,10 +18,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<WeatherModel> weatherDataGet({
     required String cityName,
+  required Map<String, dynamic> queryParameters
   }) async {
     try {
-      final response = await apiServices.getWithoutToken(
-        endPoint: ApiEndpoints.login,
+      final response = await apiServices.get(
+        endPoint: ApiEndpoints.weather,
+        queryParameters: queryParameters,
       );
       if (response != null) {
         if (response.statusCode == 200) {

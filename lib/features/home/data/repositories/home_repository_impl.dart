@@ -15,12 +15,12 @@ class HomeRepositoryImpl implements HomeRepository {
   });
 
   @override
-  Future<Either<BaseFailure, WeatherModel>> weatherDataGet({required String cityName}) async {
+  Future<Either<BaseFailure, WeatherModel>> weatherDataGet({required String cityName,required Map<String, dynamic> queryParameters}) async {
     try {
       if (!await (connectionChecker.isConnected)) {
         return Left(NetworkConnectionFailure(networkFailureMessage: "No internet connection"));
       }
-      final userEntity = await homeRemoteDataSource.weatherDataGet(cityName: cityName);
+      final userEntity = await homeRemoteDataSource.weatherDataGet(cityName: cityName,queryParameters: queryParameters);
 
       return Right(userEntity);
     } on DioException catch (dioError) {

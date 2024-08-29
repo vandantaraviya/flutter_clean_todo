@@ -6,6 +6,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_todo/core/network/connection_checker.dart';
 import 'package:flutter_clean_todo/features/home/data/repositories/home_repository_impl.dart';
+import 'package:flutter_clean_todo/features/home/domain/usecases/weather_data_get.dart';
+import 'package:flutter_clean_todo/features/home/presentation/controllers/home_controller.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/home/data/data_sources/remote/home_remote_data_source.dart';
@@ -108,16 +110,14 @@ _authDependencyInjection() {
 
   ///UseCases
 
-  // getIt.registerLazySingleton(() => WeatherDataGetUseCase(
-  //       homeRepository: getIt<AuthRepository>(),
-  //     ));
-  //
-  // ///Controller
-  // getIt.registerLazySingleton(() => AuthController(
-  //       // apiService: getIt<ApiServices>(),
-  //       storageService: getIt<StorageService>(),
-  //       loginWithEmailPasswordUseCase: getIt<LoginWithEmailPasswordUseCase>(),
-  //     ));
+  getIt.registerLazySingleton(() => WeatherDataGetUseCase(
+        homeRepository: getIt<HomeRepository>(),
+      ));
+
+  ///Controller
+  getIt.registerLazySingleton(() => HomeController(
+        weatherDataGetUseCase: getIt<WeatherDataGetUseCase>(),
+      ));
 }
 
 ///Bottom nav bar Dependency Injection
