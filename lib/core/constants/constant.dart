@@ -8,8 +8,7 @@ class Constant {
   }
 
   static const String baseUrlProd = "https://google.com/api";
-  static const String baseUrlDev = "https://api.openweathermap.org/data/2.5/";
-  static const String appIdDev = "cc95d932d5a45d33a9527d5019475f2c";
+  static const String baseUrlDev = "";
 
   static const String appName = "flutter_clean_todo";
   static const String appNameDev = "flutter_clean_todo";

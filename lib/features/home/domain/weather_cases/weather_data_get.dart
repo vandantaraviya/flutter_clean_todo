@@ -11,18 +11,16 @@ class WeatherDataGetUseCase implements UseCase<WeatherModel, WeatherDataParams> 
 
   @override
   Future<Either<BaseFailure, WeatherModel>> call({required WeatherDataParams params}) async {
-    return await homeRepository.weatherDataGet(cityName: params.cityName,queryParameters: params.queryParameters);
+    return await homeRepository.weatherDataGet(cityName: params.cityName,);
   }
 }
 
 class WeatherDataParams extends Equatable {
   final String cityName;
-  final Map<String, dynamic> queryParameters;
   const WeatherDataParams({
     required this.cityName,
-    required this.queryParameters,
   });
 
   @override
-  List<Object?> get props => [cityName, queryParameters];
+  List<Object?> get props => [cityName];
 }

@@ -6,7 +6,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_todo/core/network/connection_checker.dart';
 import 'package:flutter_clean_todo/features/home/data/repositories/home_repository_impl.dart';
-import 'package:flutter_clean_todo/features/home/domain/usecases/weather_data_get.dart';
+import 'package:flutter_clean_todo/features/home/domain/weather_cases/weather_data_get.dart';
 import 'package:flutter_clean_todo/features/home/presentation/controllers/home_controller.dart';
 import 'package:get_it/get_it.dart';
 
