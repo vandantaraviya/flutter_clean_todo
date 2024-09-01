@@ -28,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surfaceBackground,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           "HomeView",
@@ -69,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
                             color: AppColors.primaryColor,
                           )
                         : homeController.weatherGetData.isEmpty
-                            ? const Text("No Data Found")
+                            ?  Text("No Data Found",style: poppinsTextStyle,)
                             : Column(
                                 children: [
                                   Container(
